@@ -1,102 +1,119 @@
 # Cookiecutter actix simple clean architecture
+
 This is a reusable Rust Cookiecutter template. The project is based on Actix web in combination with Diesel ORM.
 
 Complete list of features the template provides:
-* Onion architecture
-* Actix Web 
-* Maintenance window support
-* Diesel ORM
-* Database migrations
-* Local postgres database docker support
-* Test containers integration for testing
+
+- Onion architecture
+- Actix Web
+- Maintenance window support
+- Diesel ORM
+- Database migrations
+- Local postgres database docker support
+- Test containers integration for testing
 
 ## Getting started
+
 To start a new project, run the following command:
+
 ```bash
-cookiecutter -c v1 https://github.com/microsoft/cookiecutter-rust-actix-clean-architecture
+cookiecutter https://github.com/Anyesh/rust-clean-template
 ```
+
 This will prompt you for some information about your project. The information
 you provide will be used to populate the files in the new project directory.
 
 You can then build the project locally.
+
 ```bash
 cargo build
 ```
 
-## Architecture 
-The application follows the Onion Architecture pattern. An article is written 
-about our experience integrating an onion architecture with actix web in combination with diesel ORM that can 
+## Architecture
+
+The application follows the Onion Architecture pattern. An article is written
+about our experience integrating an onion architecture with actix web in combination with diesel ORM that can
 be found [here](./docs/onion-architecture-article.md).
 
-This architecture is a design pattern that organizes the codebase of a software application into multiple layers, where the innermost layer 
-is the domain layer and the outermost layer is the application layer. Each layer depends only on the layers inside of it and not on the layers outside of it, 
+This architecture is a design pattern that organizes the codebase of a software application into multiple layers, where the innermost layer
+is the domain layer and the outermost layer is the application layer. Each layer depends only on the layers inside of it and not on the layers outside of it,
 creating a separation of concerns, allowing for a more maintainable and scalable codebase.
 
-For this template we suggest using a service-repository design pattern. For example implementations you can have a look at 
-
+For this template we suggest using a service-repository design pattern. For example implementations you can have a look at
 
 ## Running the application locally
+
 To run the application locally, you need to have a Postgres database running.
 You can use the `run_postgres.sh` script in the `scripts` directory to run a Postgres container.
+
 ```bash
 ./scripts/run_postgres.sh
 ```
 
 You can then run the application.
+
 ```bash
 cargo run
 ```
 
 ## Testing support
+
 All tests are can be found under the `src/tests` folder. When using the template
 you can place all you tests in this folder.
 
 To run the tests, you can use the following command:
+
 ```bash
 cargo test
 ```
+
 To run the tests with error output you can run the following command:
+
 ```bash
 cargo test -- --nocapture
 ```
-or 
+
+or
+
 ```bash
 cargo test -- --show-output
 ```
 
 ## Diesel ORM
+
 The template uses Diesel ORM for its database connection and database models
-integration. Its is currently setup with postgres, however you can 
-change it to any other database that is supported by diesel. For other databases 
+integration. Its is currently setup with postgres, however you can
+change it to any other database that is supported by diesel. For other databases
 have a look at the official Diesel documentation that can be found [here](https://diesel.rs/)
 
 ### Database migrations
 
-1) Make sure you have the diesel cli installed. You can install it with the following command:
-    ```bash
-    cargo install diesel_cli --no-default-features --features postgres
-    ```
-2) Add your postgres database url to the .env file:
-    ```bash
-    echo DATABASE_URL=postgres://username:password@localhost/diesel_demo > .env
-    ```
-3) Setup diesel before creating a migration:
-    ```bash
-    diesel setup
-    ```
-4) Create a migration with the following command:
-    ```bash
-    diesel migration generate <migration_name>
-    ```
-5) Apply your migrations:
-    ```bash
-    diesel migration run
-    ```
+1. Make sure you have the diesel cli installed. You can install it with the following command:
+   ```bash
+   cargo install diesel_cli --no-default-features --features postgres
+   ```
+2. Add your postgres database url to the .env file:
+   ```bash
+   echo DATABASE_URL=postgres://username:password@localhost/diesel_demo > .env
+   ```
+3. Setup diesel before creating a migration:
+   ```bash
+   diesel setup
+   ```
+4. Create a migration with the following command:
+   ```bash
+   diesel migration generate <migration_name>
+   ```
+5. Apply your migrations:
+   ```bash
+   diesel migration run
+   ```
 
 ## Service repository design pattern
 
 ### Diesel Repositories
-The onion architecture is best being used with a repository-service pattern. An example 
+
+The onion architecture is best being used with a repository-service pattern. An example
 repository can be seen below:
 
 ```rust
@@ -190,8 +207,10 @@ impl TodoRepository for TodoDieselRepository {
 ```
 
 ### Services
-The onion architecture is best being used with a repository-service pattern. An example 
+
+The onion architecture is best being used with a repository-service pattern. An example
 service can be seen below:
+
 ```rust
 // Can be placed under /src/services/todo.rs
 #[derive(Clone)]
